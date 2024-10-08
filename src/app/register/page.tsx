@@ -15,15 +15,12 @@ import Link from "next/link";
 const RegisterPage = () => {
   return (
     <>
-      <Container
-        sx={{
-          p: "50px",
-        }}
-      >
+      <Container>
         <Stack
           sx={{
             justifyContent: "center",
             alignItems: "center",
+            minHeight: "100vh",
           }}
         >
           <Box
