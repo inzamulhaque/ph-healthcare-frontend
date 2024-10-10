@@ -13,6 +13,7 @@ import Image from "next/image";
 import React from "react";
 import assets from "@/assets";
 import Link from "next/link";
+import modifyPayload from "@/utils/modifyPayload";
 
 type TPatient = {
   name: string;
@@ -21,7 +22,7 @@ type TPatient = {
   address: string;
 };
 
-type TPatientRegisterFormData = {
+export type TPatientRegisterFormData = {
   password: string;
   patient: TPatient;
 };
@@ -34,8 +35,10 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<TPatientRegisterFormData>();
 
-  const onSubmit: SubmitHandler<TPatientRegisterFormData> = (data) =>
+  const onSubmit: SubmitHandler<TPatientRegisterFormData> = (values) => {
+    const data = modifyPayload(values);
     console.log(data);
+  };
 
   return (
     <>
