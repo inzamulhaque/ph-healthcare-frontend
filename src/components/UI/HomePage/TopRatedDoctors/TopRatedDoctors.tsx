@@ -35,7 +35,9 @@ interface IDoctor {
 }
 
 const TopRatedDoctors = async () => {
-  const res = await fetch(`${process.env.API}/doctor?page=1&limit=3`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API}/doctor?page=1&limit=3`
+  );
   const { data: doctors } = await res.json();
 
   return (

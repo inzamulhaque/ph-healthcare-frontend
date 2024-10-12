@@ -9,11 +9,14 @@ interface ISpecialty {
 }
 
 const Specialist = async () => {
-  const res = await fetch(`${process.env.API}/specialties`, {
-    next: {
-      revalidate: 30,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API}/specialties`,
+    {
+      next: {
+        revalidate: 30,
+      },
+    }
+  );
   const { data: specialties } = await res.json();
 
   return (
