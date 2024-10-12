@@ -1,4 +1,6 @@
+"use client";
 import assets from "@/assets";
+import userLogin from "@/services/actions/userLogin";
 import {
   Box,
   Button,
@@ -10,10 +12,34 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+export type TLoginFormData = {
+  email: string;
+  password: string;
+};
+
 const LoginPage = () => {
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<TLoginFormData>();
+
+  const onSubmit: SubmitHandler<TLoginFormData> = async (values) => {
+    try {
+      const res = await userLogin(values);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -56,7 +82,7 @@ const LoginPage = () => {
             </Stack>
 
             <Box>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2} my={1}>
                   <Grid item md={6}>
                     <TextField
@@ -65,6 +91,7 @@ const LoginPage = () => {
                       variant="outlined"
                       size="small"
                       fullWidth={true}
+                      {...register("email")}
                     />
                   </Grid>
                   <Grid item md={6}>
@@ -74,6 +101,7 @@ const LoginPage = () => {
                       variant="outlined"
                       size="small"
                       fullWidth={true}
+                      {...register("password")}
                     />
                   </Grid>
                 </Grid>
@@ -90,6 +118,7 @@ const LoginPage = () => {
                 </Typography>
 
                 <Button
+                  type="submit"
                   fullWidth={true}
                   sx={{
                     margin: "10px 0px",
