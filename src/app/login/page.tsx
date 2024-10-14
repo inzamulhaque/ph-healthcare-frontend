@@ -1,6 +1,7 @@
 "use client";
 import assets from "@/assets";
 import userLogin from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/auth.service";
 import {
   Box,
   Button,
@@ -34,6 +35,9 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<TLoginFormData> = async (values) => {
     try {
       const res = await userLogin(values);
+      if (res?.data?.accessToken) {
+        storeUserInfo(res?.data?.accessToken);
+      }
       console.log(res);
     } catch (error) {
       console.log(error);
