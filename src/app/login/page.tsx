@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 export type TLoginFormData = {
   email: string;
@@ -36,7 +37,9 @@ const LoginPage = () => {
     try {
       const res = await userLogin(values);
       if (res?.data?.accessToken) {
+        toast.success(res?.message);
         storeUserInfo(res?.data?.accessToken);
+        router.push("/");
       }
       console.log(res);
     } catch (error) {
