@@ -41,7 +41,6 @@ const LoginPage = () => {
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
