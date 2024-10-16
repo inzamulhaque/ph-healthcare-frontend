@@ -1,5 +1,7 @@
 "use client";
 import assets from "@/assets";
+import PHForm from "@/components/Forms/PHForm";
+import PHInput from "@/components/Forms/PHInput";
 import userLogin from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.service";
 import {
@@ -15,25 +17,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-
-export type TLoginFormData = {
-  email: string;
-  password: string;
-};
 
 const LoginPage = () => {
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<TLoginFormData>();
-
-  const onSubmit: SubmitHandler<TLoginFormData> = async (values) => {
+  const onSubmit = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
       if (res?.data?.accessToken) {
@@ -88,27 +78,13 @@ const LoginPage = () => {
             </Stack>
 
             <Box>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <PHForm submit={onSubmit}>
                 <Grid container spacing={2} my={1}>
                   <Grid item md={6}>
-                    <TextField
-                      label="Email"
-                      type="email"
-                      variant="outlined"
-                      size="small"
-                      fullWidth={true}
-                      {...register("email")}
-                    />
+                    <PHInput name="email" label="Email" type="email" />
                   </Grid>
                   <Grid item md={6}>
-                    <TextField
-                      label="Password"
-                      type="password"
-                      variant="outlined"
-                      size="small"
-                      fullWidth={true}
-                      {...register("password")}
-                    />
+                    <PHInput name="password" label="Password" type="password" />
                   </Grid>
                 </Grid>
 
@@ -132,7 +108,7 @@ const LoginPage = () => {
                 >
                   Login
                 </Button>
-              </form>
+              </PHForm>
 
               <Typography
                 component="p"

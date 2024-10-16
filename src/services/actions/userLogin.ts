@@ -1,7 +1,8 @@
 "use server";
-import { TLoginFormData } from "@/app/login/page";
 
-const userLogin = async (payload: TLoginFormData) => {
+import { FieldValues } from "react-hook-form";
+
+const userLogin = async (payload: FieldValues) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`, {
     method: "POST",
     headers: {
