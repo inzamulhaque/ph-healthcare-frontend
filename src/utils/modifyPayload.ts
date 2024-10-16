@@ -1,6 +1,6 @@
-import { TPatientRegisterFormData } from "@/app/register/page";
+import { FieldValues } from "react-hook-form";
 
-const modifyPayload = (payload: TPatientRegisterFormData) => {
+const modifyPayload = (payload: FieldValues) => {
   const data = JSON.stringify(payload);
   const formData = new FormData();
   formData.append("data", data);
