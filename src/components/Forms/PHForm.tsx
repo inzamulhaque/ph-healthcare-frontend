@@ -2,12 +2,14 @@ import React, { ReactNode } from "react";
 import {
   FieldValues,
   FormProvider,
+  Resolver,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
 
 type TFormConfig = {
-  resolver?: any;
+  resolver?: Resolver<FieldValues>;
+  defaultValues?: Record<string, any>;
 };
 
 type TFormProps = {
@@ -15,11 +17,15 @@ type TFormProps = {
   submit: SubmitHandler<FieldValues>;
 } & TFormConfig;
 
-const PHForm = ({ children, submit, resolver }: TFormProps) => {
+const PHForm = ({ children, submit, resolver, defaultValues }: TFormProps) => {
   const formConfig: TFormConfig = {};
 
   if (resolver) {
     formConfig["resolver"] = resolver;
+  }
+
+  if (defaultValues) {
+    formConfig["defaultValues"] = defaultValues;
   }
 
   const methods = useForm(formConfig);

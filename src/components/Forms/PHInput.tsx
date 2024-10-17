@@ -23,7 +23,7 @@ const PHInput = ({
   fullWidth = true,
   sx,
   placeholder,
-  required = true,
+  required,
 }: TPHInputProps) => {
   const { control } = useFormContext();
 
@@ -32,7 +32,7 @@ const PHInput = ({
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
+        render={({ field, fieldState: { error } }) => (
           <TextField
             {...field}
             sx={sx}
@@ -43,6 +43,8 @@ const PHInput = ({
             fullWidth={fullWidth}
             placeholder={placeholder}
             required={required}
+            error={!!error?.message}
+            helperText={error?.message}
           />
         )}
       />
