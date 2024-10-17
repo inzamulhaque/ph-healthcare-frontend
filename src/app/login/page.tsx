@@ -9,7 +9,7 @@ import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -21,6 +21,7 @@ export const loginValidationSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error, setError] = useState<string>("");
 
   const onSubmit = async (values: FieldValues) => {
     try {
@@ -29,6 +30,8 @@ const LoginPage = () => {
         toast.success(res?.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
+      } else {
+        setError(res?.message);
       }
     } catch (error) {
       console.log(error);
@@ -75,6 +78,23 @@ const LoginPage = () => {
                 </Typography>
               </Box>
             </Stack>
+
+            {error && (
+              <Box>
+                <Typography
+                  sx={{
+                    backgroundColor: "red",
+                    padding: "1px",
+                    borderRadius: "2px",
+                    color: "white",
+                    marginTop: "5px",
+                    textAlign: "center",
+                  }}
+                >
+                  {error}
+                </Typography>
+              </Box>
+            )}
 
             <Box>
               <PHForm
