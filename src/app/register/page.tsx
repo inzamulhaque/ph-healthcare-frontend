@@ -13,6 +13,30 @@ import userLogin from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.service";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const registerValidationSchema = z.object({
+  password: z.string().min(6, "Password must be at least 6 charactors!"),
+  patient: z.object({
+    name: z.string().min(1, "Please enter your name!"),
+    email: z.string().email("Please enter a valid email address!"),
+    contactNumber: z
+      .string()
+      .regex(/^\d{11}$/, "Please provide a valid phone number!"),
+    address: z.string().min(1, "Please enter your address!"),
+  }),
+});
+
+const defaultValues = {
+  password: "",
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+};
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -82,7 +106,11 @@ const RegisterPage = () => {
             </Stack>
 
             <Box>
-              <PHForm submit={onSubmit}>
+              <PHForm
+                submit={onSubmit}
+                resolver={zodResolver(registerValidationSchema)}
+                defaultValues={defaultValues}
+              >
                 <Grid container spacing={2} my={1}>
                   <Grid item md={12}>
                     <PHInput

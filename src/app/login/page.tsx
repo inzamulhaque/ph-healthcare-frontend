@@ -16,7 +16,7 @@ import { z } from "zod";
 
 export const loginValidationSchema = z.object({
   email: z.string().email("please enter a valid email address!"),
-  password: z.string().min(6, "Password must be at least 6 charactors"),
+  password: z.string().min(6, "Password must be at least 6 charactors!"),
 });
 
 const LoginPage = () => {
