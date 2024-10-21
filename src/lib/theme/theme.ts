@@ -32,6 +32,7 @@ const theme = createTheme({
 
   typography: {
     body1: {
+      fontFamily: "Roboto Condensed, sans-serif",
       color: "#0B1134CC",
     },
   },
