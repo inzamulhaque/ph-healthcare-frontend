@@ -1,13 +1,23 @@
+"use client";
+
 import { Box, Divider, List, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
 import drawerItems from "@/utils/drawerItems";
 import { TUserRole } from "@/types";
 import SidebarItem from "./SidebarItem";
+import { getUserInfo, IDecodedData } from "@/services/auth.service";
 
 const SideBar = () => {
+  const [userRole, setUserRole] = useState<string>("");
+
+  useEffect(() => {
+    const { role } = getUserInfo() as IDecodedData;
+    setUserRole(role);
+  }, []);
+
   return (
     <>
       <Box>
@@ -30,7 +40,7 @@ const SideBar = () => {
         <Divider />
 
         <List>
-          {drawerItems("admin" as TUserRole).map((item, index) => (
+          {drawerItems(userRole as TUserRole).map((item, index) => (
             <SidebarItem key={index} item={item} />
           ))}
         </List>

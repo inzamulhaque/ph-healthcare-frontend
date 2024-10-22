@@ -55,7 +55,7 @@ const RegisterPage = () => {
         if (loginRes?.data?.accessToken) {
           toast.success(loginRes?.message);
           storeUserInfo(loginRes?.data?.accessToken);
-          router.push("/");
+          router.push("/dashboard");
         }
       }
       // console.log(data);
