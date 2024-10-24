@@ -28,7 +28,13 @@ type Tprops = {
   sx?: SxProps;
 };
 
-const PHModal = ({ children, open, setOpen, title, sx }: Tprops) => {
+const PHModal = ({
+  children,
+  open = false,
+  setOpen,
+  title = "",
+  sx,
+}: Tprops) => {
   const handleClose = () => {
     setOpen(false);
   };
