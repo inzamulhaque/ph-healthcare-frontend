@@ -25,7 +25,7 @@ const SpeciatiesModal = ({ open, setOpen }: Tprops) => {
             </Grid>
 
             <Grid item md={6}>
-              <PHFileUploader />
+              <PHFileUploader name="file" label="Upload Logo" />
             </Grid>
           </Grid>
 
