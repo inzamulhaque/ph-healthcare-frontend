@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Box, Button, Stack, TextField } from "@mui/material";
-import SpeciatiesModal from "./components/SpeciatiesModal";
+import SpecialtyModal from "./components/SpeciatiesModal";
 
 const SpecialtiesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -16,7 +16,7 @@ const SpecialtiesPage = () => {
           alignItems={"center"}
         >
           <Button onClick={() => setIsModalOpen(true)}>Create Specialty</Button>
-          <SpeciatiesModal open={isModalOpen} setOpen={setIsModalOpen} />
+          <SpecialtyModal open={isModalOpen} setOpen={setIsModalOpen} />
 
           <TextField size="small" placeholder="Search Speciaties" />
         </Stack>

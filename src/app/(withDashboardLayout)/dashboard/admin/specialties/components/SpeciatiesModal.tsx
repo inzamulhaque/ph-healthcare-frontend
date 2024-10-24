@@ -2,6 +2,7 @@ import PHFileUploader from "@/components/Forms/PHFileUploader";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHModal from "@/components/Shared/PHModal/PHModal";
+import modifyPayload from "@/utils/modifyPayload";
 import { Button, Grid } from "@mui/material";
 
 import React from "react";
@@ -12,8 +13,15 @@ type Tprops = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SpeciatiesModal = ({ open, setOpen }: Tprops) => {
-  const handleFormSubmit = async (values: FieldValues) => {};
+const SpecialtyModal = ({ open, setOpen }: Tprops) => {
+  const handleFormSubmit = async (values: FieldValues) => {
+    const data = modifyPayload(values);
+
+    try {
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
@@ -38,4 +46,4 @@ const SpeciatiesModal = ({ open, setOpen }: Tprops) => {
   );
 };
 
-export default SpeciatiesModal;
+export default SpecialtyModal;
