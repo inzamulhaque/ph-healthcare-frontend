@@ -5,38 +5,53 @@ import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SpecialtyModal from "./components/SpeciatiesModal";
-import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
+import {
+  useDeleteSpecialtyMutation,
+  useGetAllSpecialtiesQuery,
+} from "@/redux/api/specialtiesApi";
 import Image from "next/image";
+import { toast } from "sonner";
 
 const SpecialtiesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data, isLoading } = useGetAllSpecialtiesQuery({});
+  const [deleteSpecialty] = useDeleteSpecialtyMutation();
 
-  const handleDeleteSpecialty = (id: string) => {};
+  const handleDeleteSpecialty = async (id: string) => {
+    try {
+      const res = await deleteSpecialty(id).unwrap();
+
+      if (res?.id) {
+        toast.success(`${res?.title} deleted successfully`);
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
 
   const columns: GridColDef[] = [
     {
       field: "title",
       headerName: "Title",
-      width: 300,
+      width: 400,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "icon",
       headerName: "Icon",
-      width: 300,
+      flex: 1,
       headerAlign: "center",
       renderCell: ({ row }) => (
         <Box display={"flex"} justifyContent={"center"}>
-          <Image src={row.icon} width={20} height={20} alt="icon" />
+          <Image src={row.icon} width={30} height={30} alt="icon" />
         </Box>
       ),
     },
     {
       field: "action",
       headerName: "Action",
-      width: 300,
+      flex: 1,
       headerAlign: "center",
       renderCell: ({ row }) => (
         <Box display={"flex"} justifyContent={"center"}>
