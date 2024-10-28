@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SpecialtyModal from "./components/SpeciatiesModal";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import Image from "next/image";
@@ -11,14 +12,41 @@ const SpecialtiesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { data, isLoading } = useGetAllSpecialtiesQuery({});
 
+  const handleDeleteSpecialty = (id: string) => {};
+
   const columns: GridColDef[] = [
-    { field: "title", headerName: "Title", width: 170 },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 300,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "icon",
       headerName: "Icon",
-      width: 170,
+      width: 300,
+      headerAlign: "center",
       renderCell: ({ row }) => (
-        <Image src={row.icon} width={40} height={40} alt="icon" />
+        <Box display={"flex"} justifyContent={"center"}>
+          <Image src={row.icon} width={20} height={20} alt="icon" />
+        </Box>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 300,
+      headerAlign: "center",
+      renderCell: ({ row }) => (
+        <Box display={"flex"} justifyContent={"center"}>
+          <IconButton
+            onClick={() => handleDeleteSpecialty(row.id)}
+            aria-label="delete"
+          >
+            <DeleteForeverIcon />
+          </IconButton>
+        </Box>
       ),
     },
   ];
@@ -38,7 +66,7 @@ const SpecialtiesPage = () => {
         </Stack>
 
         {!isLoading ? (
-          <Box>
+          <Box my={2}>
             <DataGrid rows={data} columns={columns} sx={{ border: 0 }} />
           </Box>
         ) : (
