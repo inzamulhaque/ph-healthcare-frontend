@@ -2,7 +2,7 @@
 
 // import AuthButton from "@/components/UI/AuthButton/AuthButton";
 
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
@@ -10,7 +10,20 @@ import React from "react";
 const Navbar = () => {
   const AuthButton = dynamic(
     () => import("@/components/UI/AuthButton/AuthButton"),
-    { ssr: false }
+    {
+      ssr: false,
+      loading: () => (
+        <Button
+          component={Link}
+          href="/login"
+          sx={{
+            opacity: 0,
+          }}
+        >
+          Login
+        </Button>
+      ),
+    }
   );
 
   return (

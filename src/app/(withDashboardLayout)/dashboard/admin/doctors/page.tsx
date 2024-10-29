@@ -11,7 +11,12 @@ import Link from "next/link";
 
 const DoctorsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+  const query: Record<string, unknown> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  query["searchTerm"] = searchTerm;
+
+  const { data, isLoading } = useGetAllDoctorsQuery(query);
 
   const { doctors, meta } = data || {};
 
@@ -73,7 +78,11 @@ const DoctorsPage = () => {
           </Button>
           <DoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
 
-          <TextField size="small" placeholder="Search Doctors" />
+          <TextField
+            onChange={(e) => setSearchTerm(e.target.value)}
+            size="small"
+            placeholder="Search Doctors"
+          />
         </Stack>
 
         {!isLoading ? (
