@@ -1,9 +1,20 @@
+import { Box, Button, Stack, TextField } from "@mui/material";
 import React from "react";
 
 const DoctorsPage = () => {
   return (
     <>
-      <h1>Doctors Page</h1>
+      <Box>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Button>Create Doctor</Button>
+
+          <TextField size="small" placeholder="Search Doctors" />
+        </Stack>
+      </Box>
     </>
   );
 };
