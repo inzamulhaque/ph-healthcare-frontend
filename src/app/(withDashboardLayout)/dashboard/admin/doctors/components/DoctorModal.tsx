@@ -2,9 +2,8 @@ import { Button, Grid } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
-
 import PHFullScreenModal from "@/components/Shared/PHModal/PHFullScreenModal";
-// import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
+import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
 import { toast } from "sonner";
 import modifyPayload from "@/utils/modifyPayload";
 import { Gender } from "@/constant/gender";
@@ -16,19 +15,19 @@ type TProps = {
 };
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
-  // const [createDoctor] = useCreateDoctorMutation();
-  const handleFormSubmit = async (values: FieldValues) => {
-    // console.log(values);
+  const [createDoctor] = useCreateDoctorMutation();
+
+  const handleCreateNewDoctor = async (values: FieldValues) => {
     values.doctor.experience = Number(values.doctor.experience);
     values.doctor.apointmentFee = Number(values.doctor.apointmentFee);
     const data = modifyPayload(values);
+
     try {
-      // const res = await createDoctor(data).unwrap();
-      // console.log(res);
-      // if (res?.id) {
-      //   toast.success("Doctor created successfully!!!");
-      //   setOpen(false);
-      // }
+      const res = await createDoctor(data).unwrap();
+      if (res?.id) {
+        toast.success("Doctor created successfully!");
+        setOpen(false);
+      }
     } catch (err: any) {
       console.error(err);
     }
@@ -54,7 +53,7 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
 
   return (
     <PHFullScreenModal open={open} setOpen={setOpen} title="Create New Doctor">
-      <PHForm submit={handleFormSubmit} defaultValues={defaultValues}>
+      <PHForm submit={handleCreateNewDoctor} defaultValues={defaultValues}>
         <Grid container spacing={2} sx={{ my: 5 }}>
           <Grid item xs={12} sm={12} md={4}>
             <PHInput
