@@ -82,7 +82,12 @@ const SpecialtiesPage = () => {
 
         {!isLoading ? (
           <Box my={2}>
-            <DataGrid rows={data} columns={columns} sx={{ border: 0 }} />
+            <DataGrid
+              rows={data}
+              columns={columns}
+              sx={{ border: 0 }}
+              hideFooter={true}
+            />
           </Box>
         ) : (
           <h1>Loading...</h1>
