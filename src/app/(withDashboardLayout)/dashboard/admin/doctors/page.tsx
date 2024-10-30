@@ -8,13 +8,17 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
+import { useDebounced } from "@/redux/hooks";
 
 const DoctorsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const query: Record<string, unknown> = {};
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const debouncedTerm = useDebounced({ searchQuery: searchTerm, delay: 2000 });
 
-  query["searchTerm"] = searchTerm;
+  if (!!debouncedTerm) {
+    query["searchTerm"] = searchTerm;
+  }
 
   const { data, isLoading } = useGetAllDoctorsQuery(query);
 
