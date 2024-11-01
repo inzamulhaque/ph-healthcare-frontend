@@ -6,15 +6,15 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-interface ITimePicker {
+type TTimePicker = {
   name: string;
   size?: "small" | "medium";
   placeholder?: string;
-  label?: string;
+  label: string;
   required?: boolean;
   fullWidth?: boolean;
   sx?: SxProps;
-}
+};
 
 const PHTimePicker = ({
   name,
@@ -23,7 +23,7 @@ const PHTimePicker = ({
   required,
   fullWidth = true,
   sx,
-}: ITimePicker) => {
+}: TTimePicker) => {
   const { control, formState } = useFormContext();
   const isError = formState.errors[name] !== undefined;
 
