@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useRouter } from "next/navigation";
+import { removeFromLocalStorage } from "@/utils/local-storage";
 
 const menuStyles = {
   paper: {
@@ -51,7 +52,7 @@ export default function AccountMenu() {
   };
   const handleLogout = () => {
     setAnchorEl(null);
-    localStorage.removeItem("accessToken");
+    removeFromLocalStorage("accessToken");
     router.push("/login");
   };
 
