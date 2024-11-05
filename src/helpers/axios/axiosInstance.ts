@@ -54,11 +54,11 @@ axiosInstance.interceptors.response.use(
       const response = await getNewAccessToken();
       const accessToken = response?.data?.accessToken;
 
-      console.log(accessToken);
+      if (accessToken) {
+        config.headers["Authorization"] = accessToken;
 
-      config.headers["Authorization"] = accessToken;
-
-      setToLocalStorage(authKey, accessToken);
+        setToLocalStorage(authKey, accessToken);
+      }
 
       return axiosInstance(config);
     } else {
