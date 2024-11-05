@@ -4,6 +4,7 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHSelectField from "@/components/Forms/PHSelectField";
 import { Gender } from "@/constant/gender";
+import { useGetSingleDoctorQuery } from "@/redux/api/doctorApi";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
@@ -13,6 +14,10 @@ type TProps = {
 };
 
 const DoctorUpdatePage = ({ params }: TProps) => {
+  const { data, isLoading } = useGetSingleDoctorQuery(
+    params?.doctorId as string
+  );
+
   const handleUpdateDoctorInfo = async (values: FieldValues) => {
     try {
     } catch (error) {
