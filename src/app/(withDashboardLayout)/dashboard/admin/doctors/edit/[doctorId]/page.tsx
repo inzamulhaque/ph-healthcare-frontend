@@ -4,22 +4,39 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHSelectField from "@/components/Forms/PHSelectField";
 import { Gender } from "@/constant/gender";
-import { useGetSingleDoctorQuery } from "@/redux/api/doctorApi";
+import {
+  useGetSingleDoctorQuery,
+  useUpdateDoctorMutation,
+} from "@/redux/api/doctorApi";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   params: Record<string, unknown>;
 };
 
 const DoctorUpdatePage = ({ params }: TProps) => {
+  const router = useRouter();
+
   const id = params?.doctorId;
 
   const { data, isLoading } = useGetSingleDoctorQuery(id as string);
+  const [updateDoctor] = useUpdateDoctorMutation();
 
   const handleUpdateDoctorInfo = async (values: FieldValues) => {
+    values.experience = Number(values.experience);
+    values.apointmentFee = Number(values.apointmentFee);
+    values.id = id;
+
     try {
+      const res = await updateDoctor({ id: values.id, body: values }).unwrap();
+      if (res?.id) {
+        toast.success("Doctor Updated Successfully!");
+        router.push("/dashboard/admin/doctors");
+      }
     } catch (error) {
       console.log(error);
     }
