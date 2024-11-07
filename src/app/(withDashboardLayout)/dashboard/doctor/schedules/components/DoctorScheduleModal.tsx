@@ -2,12 +2,16 @@
 
 import PHModal from "@/components/Shared/PHModal/PHModal";
 import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
-import { Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import MultipleSelectFieldChip from "./MultipleSelectFieldChip";
+import { useCreateDoctorScheduleMutation } from "@/redux/api/doctorScheduleApi";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -36,15 +40,38 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
       .toISOString();
   }
 
-  const { data, isLoading } = useGetAllSchedulesQuery(query);
+  const { data } = useGetAllSchedulesQuery(query);
   const schedules = data?.schedules;
 
-  console.log(selectedScheduleIds);
+  const [createDoctorSchedule, { isLoading }] =
+    useCreateDoctorScheduleMutation();
+
+  const handleCreateDoctorSchedule = async () => {
+    try {
+      const res = await createDoctorSchedule({
+        scheduleIds: selectedScheduleIds,
+      }).unwrap();
+
+      if (res.count) {
+        toast.success("Schedules create successsfully!");
+        setOpen(false);
+        setSelectedScheduleIds([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <PHModal open={open} setOpen={setOpen} title="Create Doctor Schedule">
-        <Stack direction={"column"} gap={2}>
+        <Stack
+          direction={"column"}
+          gap={2}
+          sx={{
+            minWidth: "450px",
+          }}
+        >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               disablePast
@@ -63,7 +90,16 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
             setSelectedScheduleIds={setSelectedScheduleIds}
           />
 
-          <Button>Submit</Button>
+          <LoadingButton
+            color="primary"
+            onClick={handleCreateDoctorSchedule}
+            loading={isLoading}
+            loadingPosition="start"
+            startIcon={<AddCircleIcon />}
+            variant="contained"
+          >
+            Create Schedules
+          </LoadingButton>
         </Stack>
       </PHModal>
     </>
