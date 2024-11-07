@@ -66,7 +66,7 @@ const MultipleSelectFieldChip = ({
 
   return (
     <>
-      <FormControl sx={{ width: "100%", my: 2 }}>
+      <FormControl sx={{ width: "100%" }}>
         <InputLabel id="demo-multiple-chip-label">Select Slot</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

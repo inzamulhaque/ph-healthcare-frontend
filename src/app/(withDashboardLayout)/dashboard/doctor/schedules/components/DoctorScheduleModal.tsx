@@ -2,7 +2,7 @@
 
 import PHModal from "@/components/Shared/PHModal/PHModal";
 import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -39,30 +39,32 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   const { data, isLoading } = useGetAllSchedulesQuery(query);
   const schedules = data?.schedules;
 
-  console.log(schedules);
+  console.log(selectedScheduleIds);
 
   return (
     <>
       <PHModal open={open} setOpen={setOpen} title="Create Doctor Schedule">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            disablePast
-            label="Select Date"
-            value={dayjs(selectedDate)}
-            onChange={(newValue) =>
-              setSelectedDate(dayjs(newValue).toISOString())
-            }
-            sx={{ width: "100%" }}
+        <Stack direction={"column"} gap={2}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              disablePast
+              label="Select Date"
+              value={dayjs(selectedDate)}
+              onChange={(newValue) =>
+                setSelectedDate(dayjs(newValue).toISOString())
+              }
+              sx={{ width: "100%" }}
+            />
+          </LocalizationProvider>
+
+          <MultipleSelectFieldChip
+            schedules={schedules}
+            selectedScheduleIds={selectedScheduleIds}
+            setSelectedScheduleIds={setSelectedScheduleIds}
           />
-        </LocalizationProvider>
 
-        <MultipleSelectFieldChip
-          schedules={schedules}
-          selectedScheduleIds={selectedScheduleIds}
-          setSelectedScheduleIds={setSelectedScheduleIds}
-        />
-
-        <Button>Submit</Button>
+          <Button>Submit</Button>
+        </Stack>
       </PHModal>
     </>
   );
