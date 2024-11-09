@@ -12,6 +12,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import modifyPayload from "@/utils/modifyPayload";
 import AutoFileUploader from "@/components/Forms/AutoFileUploader";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ProfileUpdateModal from "./components/ProfileUpdateModal";
 
 const DoctorProfulePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -75,6 +76,13 @@ const DoctorProfulePage = () => {
               Edit Profile
             </Button>
           </Grid>
+
+          <ProfileUpdateModal
+            open={isModalOpen}
+            setOpen={setIsModalOpen}
+            id={data?.id}
+          />
+
           <Grid item xs={12} md={8}>
             <DoctorInformation data={data} />
           </Grid>
