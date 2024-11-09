@@ -6,6 +6,7 @@ export type TSpecialties = {
 export type TDoctor = {
   id: string;
   name: string;
+  email: string;
   profilePhoto: string;
   contactNumber: string;
   address: string;
@@ -17,4 +18,8 @@ export type TDoctor = {
   currentWorkingPlace: string;
   designation: string;
   specialties?: TSpecialties[];
+  role?: string;
+  createdAt: Date;
+  status?: string;
+  averageRating?: number;
 };
