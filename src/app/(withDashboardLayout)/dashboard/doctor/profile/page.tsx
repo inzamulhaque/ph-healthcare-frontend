@@ -9,6 +9,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 import DoctorInformation from "./components/DoctorInformations";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import modifyPayload from "@/utils/modifyPayload";
+import AutoFileUploader from "@/components/Forms/AutoFileUploader";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const DoctorProfulePage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -16,6 +19,14 @@ const DoctorProfulePage = () => {
   const { data, isLoading } = useGetMYProfileQuery({});
   const [updateMYProfile, { isLoading: updating }] =
     useUpdateMYProfileMutation();
+
+  const fileUploadHandler = (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify({}));
+
+    updateMYProfile(formData);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -37,9 +48,23 @@ const DoctorProfulePage = () => {
               <Image
                 height={300}
                 width={400}
-                src={data?.profilePhoto}
+                src={data?.profilePhoto || ""}
                 alt="User Photo"
               />
+            </Box>
+
+            <Box my={3}>
+              {updating ? (
+                <p>Uploading...</p>
+              ) : (
+                <AutoFileUploader
+                  name="file"
+                  label="Choose Your Profile Photo"
+                  icon={<CloudUploadIcon />}
+                  onFileUpload={fileUploadHandler}
+                  variant="text"
+                />
+              )}
             </Box>
 
             <Button
