@@ -12,6 +12,7 @@ import MultipleSelectChip from "./MultipleSelectChip";
 import PHInput from "@/components/Forms/PHInput";
 import PHSelectField from "@/components/Forms/PHSelectField";
 import { Gender } from "@/constant/gender";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -30,10 +31,51 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
   const handleUpdateProfile = async (values: FieldValues) => {
+    values.experience = Number(values.experience);
+    values.apointmentFee = Number(values.apointmentFee);
+
     const specialties = selectedSpecialtiesIds.map((specialtiesId: string) => ({
       specialtiesId,
       isDeleted: false,
     }));
+
+    const excludedFields: Array<keyof typeof values> = [
+      "email",
+      "id",
+      "role",
+      "needPasswordChange",
+      "status",
+      "createdAt",
+      "updatedAt",
+      "isDeleted",
+      "averageRating",
+      "review",
+      "profilePhoto",
+      "registrationNumber",
+      "schedules",
+      "doctorSpecialties",
+    ];
+
+    const updatedValues = Object.fromEntries(
+      Object.entries(values).filter(([key]) => {
+        return !excludedFields.includes(key);
+      })
+    );
+
+    updatedValues.specialties = specialties;
+
+    try {
+      const res = await updateDoctor({ body: updatedValues, id }).unwrap();
+
+      if (res?.id) {
+        toast.success("Information Updated Successfully!");
+        await refetch();
+        setOpen(false);
+      }
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
