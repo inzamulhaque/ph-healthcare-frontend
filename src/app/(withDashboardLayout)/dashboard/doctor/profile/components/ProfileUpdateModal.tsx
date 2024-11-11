@@ -6,7 +6,7 @@ import {
 } from "@/redux/api/doctorApi";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import { Button, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
 import PHInput from "@/components/Forms/PHInput";
@@ -29,6 +29,16 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   >([]);
 
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    setSelectedSpecialtiesIds(
+      doctorData?.doctorSpecialties.map((sp: any) => {
+        return sp.specialtiesId;
+      })
+    );
+  }, [isSuccess]);
 
   const handleUpdateProfile = async (values: FieldValues) => {
     values.experience = Number(values.experience);
