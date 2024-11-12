@@ -14,7 +14,16 @@ const DoctorSchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [allSchedule, setAllSchedule] = useState<Record<string, unknown>[]>([]);
-  const { data, isLoading } = useGetAllDoctorSchedulesQuery({});
+
+  const query: Record<string, unknown> = {};
+
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+
+  query["page"] = page;
+  query["limit"] = limit;
+
+  const { data, isLoading } = useGetAllDoctorSchedulesQuery(query);
 
   const schedules = data?.doctorSchedules;
   const meta = data?.meta;
@@ -72,6 +81,14 @@ const DoctorSchedulesPage = () => {
                 rows={allSchedule}
                 columns={columns}
                 sx={{ border: 0 }}
+                hideFooterPagination={true}
+                slots={{
+                  footer: () => (
+                    <>
+                      <Box></Box>
+                    </>
+                  ),
+                }}
               />
             </Box>
           ) : (
