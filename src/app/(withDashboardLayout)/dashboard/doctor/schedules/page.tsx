@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
 import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
@@ -28,6 +28,11 @@ const DoctorSchedulesPage = () => {
   const schedules = data?.doctorSchedules;
   const meta = data?.meta;
 
+  let pageCount: number;
+  if (meta?.total) {
+    pageCount = Math.ceil(meta?.total / limit);
+  }
+
   useEffect(() => {
     const updateData = schedules?.map((schedule: TSchedule, index: number) => {
       return {
@@ -41,6 +46,13 @@ const DoctorSchedulesPage = () => {
 
     setAllSchedule(updateData as Record<string, unknown>[]);
   }, [schedules]);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
 
   const columns: GridColDef[] = [
     { field: "sl", headerName: "SL" },
@@ -85,7 +97,22 @@ const DoctorSchedulesPage = () => {
                 slots={{
                   footer: () => (
                     <>
-                      <Box></Box>
+                      <Box
+                        sx={{
+                          mt: 1,
+                          display: "flex",
+                          justifyContent: "end",
+                        }}
+                      >
+                        <Pagination
+                          count={pageCount}
+                          page={page}
+                          variant="outlined"
+                          shape="rounded"
+                          color="primary"
+                          onChange={handlePageChange}
+                        />
+                      </Box>
                     </>
                   ),
                 }}
