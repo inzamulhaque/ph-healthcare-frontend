@@ -1,4 +1,5 @@
 import { authKey } from "@/constant/authKey";
+import setAccessToken from "@/services/actions/setAccessToken";
 import { getNewAccessToken } from "@/services/auth.service";
 import { TGenericErrorResponse, TResponseSuccess } from "@/types";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
@@ -56,6 +57,7 @@ axiosInstance.interceptors.response.use(
 
       if (accessToken) {
         config.headers["Authorization"] = accessToken;
+        setAccessToken(accessToken);
 
         setToLocalStorage(authKey, accessToken);
       }
