@@ -1,6 +1,6 @@
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
-export const decodedToken = (token: string) => {
-  const decoded = jwtDecode(token);
+export const decodedToken = (token: string): JwtPayload & { role: string } => {
+  const decoded: JwtPayload & { role: string } = jwtDecode(token);
   return decoded;
 };

@@ -1,6 +1,7 @@
 // "use server";
 
 import { FieldValues } from "react-hook-form";
+import setAccessToken from "./setAccessToken";
 
 const userLogin = async (payload: FieldValues) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/login`, {
@@ -14,6 +15,10 @@ const userLogin = async (payload: FieldValues) => {
   });
 
   const userInfo = await res.json();
+
+  if (userInfo?.data?.accessToken) {
+    setAccessToken(userInfo?.data?.accessToken);
+  }
 
   return userInfo;
 };
