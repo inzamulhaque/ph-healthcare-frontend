@@ -2,6 +2,9 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { authKey } from "./constant/authKey";
+import { decodedToken } from "./utils/jwt";
+
+type TRole = keyof typeof roleBasedPrivateRoutes;
 
 const AuthRoutes = ["/login", "/register"];
 const commonPrivateRoutes = ["/dashboard", "/dashboard/change-password"];
@@ -24,6 +27,22 @@ export function middleware(request: NextRequest) {
 
   if (accessToken && commonPrivateRoutes.includes(pathname)) {
     return NextResponse.next();
+  }
+
+  let decodedData = null;
+
+  if (accessToken) {
+    decodedData = decodedToken(accessToken);
+  }
+
+  const role = decodedData?.role;
+
+  if (role && roleBasedPrivateRoutes[role as TRole]) {
+    const routes = roleBasedPrivateRoutes[role as TRole];
+
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.next();
+    }
   }
 
   return NextResponse.redirect(new URL("/", request.url));
