@@ -1,3 +1,4 @@
+import logoutUser from "@/services/actions/logoutUser";
 import {
   getUserInfo,
   IDecodedData,
@@ -13,8 +14,7 @@ const AuthButton = () => {
   const userInfo = getUserInfo();
 
   const handleLogOut = () => {
-    removeUserInfo();
-    router.refresh();
+    logoutUser(router);
   };
 
   return (
