@@ -22,7 +22,13 @@ export function middleware(request: NextRequest) {
   const accessToken = cookies().get(authKey)?.value;
 
   if (!accessToken) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    console.log("OK============================");
+
+    if (AuthRoutes.includes(pathname)) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   if (accessToken && commonPrivateRoutes.includes(pathname)) {
@@ -50,5 +56,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/dashboard/:page*",
+  matcher: ["/login", "/register", "/dashboard/:page*"],
 };
