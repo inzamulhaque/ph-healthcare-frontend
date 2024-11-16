@@ -9,6 +9,8 @@ import { z } from "zod";
 import KeyIcon from "@mui/icons-material/Key";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useChangePasswordMutation } from "@/redux/api/authApi";
+import logoutUser from "@/services/actions/logoutUser";
 
 const validationSchema = z.object({
   oldPassword: z.string().min(6, "Must be at least 6 characters long"),
@@ -16,9 +18,18 @@ const validationSchema = z.object({
 });
 
 const ChangePassword = () => {
+  const [changePassword] = useChangePasswordMutation();
   const router = useRouter();
   const onSubmit = async (values: FieldValues) => {
     try {
+      const res = await changePassword(values);
+
+      if ("data" in res && res.data.status === 200) {
+        logoutUser(router);
+        toast.success("Password Changed Successfully");
+      } else {
+        throw new Error("Incorrect Old Password");
+      }
     } catch (error) {
       toast.success("Incorrect Old Password");
       console.log(error);
