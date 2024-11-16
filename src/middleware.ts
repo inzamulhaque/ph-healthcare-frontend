@@ -22,8 +22,6 @@ export function middleware(request: NextRequest) {
   const accessToken = cookies().get(authKey)?.value;
 
   if (!accessToken) {
-    console.log("OK============================");
-
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
