@@ -10,8 +10,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useRouter } from "next/navigation";
-import { removeFromLocalStorage } from "@/utils/local-storage";
 import logoutUser from "@/services/actions/logoutUser";
+import getCookies from "@/utils/getCookies";
+import { authKey } from "@/constant/authKey";
+import { decodedToken } from "@/utils/jwt";
 
 const menuStyles = {
   paper: {
@@ -48,7 +50,15 @@ export default function AccountMenu() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
+    const cookie = await getCookies(authKey);
+
+    if (cookie) {
+      const tokenInfo = decodedToken(cookie as string);
+
+      router.push(`/dashboard/${tokenInfo.role.toLowerCase()}/profile`);
+    }
+
     setAnchorEl(null);
   };
   const handleLogout = () => {
