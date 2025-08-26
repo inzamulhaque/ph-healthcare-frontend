@@ -120,6 +120,9 @@ const LoginPage = () => {
                   mb="1"
                   sx={{
                     textAlign: "end",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
                   }}
                 >
                   <Link href="/forgot-password">Forgot Password?</Link>

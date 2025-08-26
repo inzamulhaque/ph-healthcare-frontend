@@ -1,9 +1,5 @@
 import logoutUser from "@/services/actions/logoutUser";
-import {
-  getUserInfo,
-  IDecodedData,
-  removeUserInfo,
-} from "@/services/auth.service";
+import { getUserInfo, IDecodedData } from "@/services/auth.service";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
