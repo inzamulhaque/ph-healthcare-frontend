@@ -8,7 +8,18 @@ const DoctorCard = ({ doctor }: { doctor: TDoctor }) => {
     "https://static.vecteezy.com/system/resources/thumbnails/026/489/224/small_2x/muslim-malay-woman-doctor-in-hospital-with-copy-space-ai-generated-photo.jpg";
 
   return (
-    <Stack direction="row" gap={2}>
+    <Stack
+      direction="row"
+      gap={2}
+      mx={2}
+      mb={3}
+      border={1}
+      borderColor="secondary.light"
+      borderRadius={2}
+      overflow="hidden"
+      boxShadow={3}
+      sx={{ bgcolor: "white" }}
+    >
       <Stack
         direction="row"
         flex={1}
