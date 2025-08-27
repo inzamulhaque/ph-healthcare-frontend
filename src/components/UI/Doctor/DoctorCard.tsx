@@ -13,7 +13,7 @@ const DoctorCard = ({ doctor }: { doctor: TDoctor }) => {
       gap={2}
       mx={2}
       mb={3}
-      border={1}
+      border={0}
       borderColor="secondary.light"
       borderRadius={2}
       overflow="hidden"
