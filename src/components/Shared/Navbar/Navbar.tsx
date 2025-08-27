@@ -1,30 +1,49 @@
 "use client";
 
+import useUserInfo from "@/hooks/useUserInfo";
+import logoutUser from "@/services/actions/logoutUser";
 // import AuthButton from "@/components/UI/AuthButton/AuthButton";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
+import { JwtPayload } from "jwt-decode";
+// import dynamic from "next/dynamic";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const AuthButton = dynamic(
-    () => import("@/components/UI/AuthButton/AuthButton"),
-    {
-      ssr: false,
-      loading: () => (
-        <Button
-          component={Link}
-          href="/login"
-          sx={{
-            opacity: 0,
-          }}
-        >
-          Login
-        </Button>
-      ),
-    }
-  );
+  const info = useUserInfo();
+  const [userInfo, setUserInfo] = useState<
+    (JwtPayload & { role: string }) | null
+  >(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    setUserInfo(info);
+  }, [info]);
+
+  // const AuthButton = dynamic(
+  //   () => import("@/components/UI/AuthButton/AuthButton"),
+  //   {
+  //     ssr: false,
+  //     loading: () => (
+  //       <Button
+  //         component={Link}
+  //         href="/login"
+  //         sx={{
+  //           opacity: 0,
+  //         }}
+  //       >
+  //         Login
+  //       </Button>
+  //     ),
+  //   }
+  // );
+
+  const handleLogOut = () => {
+    logoutUser(router);
+    setUserInfo(null);
+  };
 
   return (
     <>
@@ -59,12 +78,25 @@ const Navbar = () => {
             <Typography component={Link} href="/login">
               NGOs
             </Typography>
-            <Typography component={Link} href="/dashboard">
-              Dashboard
-            </Typography>
+            {userInfo?.role && (
+              <Typography
+                component={Link}
+                href={`/dashboard/${userInfo.role.toLocaleLowerCase()}`}
+              >
+                Dashboard
+              </Typography>
+            )}
           </Stack>
 
-          <AuthButton />
+          {userInfo?.role ? (
+            <Button color="error" onClick={handleLogOut}>
+              LogOut
+            </Button>
+          ) : (
+            <Button component={Link} href="/login">
+              Login
+            </Button>
+          )}
         </Stack>
       </Container>
     </>
