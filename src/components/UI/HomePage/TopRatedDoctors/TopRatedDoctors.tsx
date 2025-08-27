@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Link from "next/link";
 
 interface IDoctor {
   id: string;
@@ -121,6 +122,8 @@ const TopRatedDoctors = async () => {
             }}
           >
             <Button
+              component={Link}
+              href="/doctors"
               variant="outlined"
               sx={{
                 marginTop: "20px",

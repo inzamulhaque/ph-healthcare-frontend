@@ -59,6 +59,9 @@ const Navbar = () => {
             <Typography component={Link} href="/login">
               NGOs
             </Typography>
+            <Typography component={Link} href="/dashboard">
+              Dashboard
+            </Typography>
           </Stack>
 
           <AuthButton />
