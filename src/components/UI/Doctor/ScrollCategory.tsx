@@ -28,6 +28,7 @@ const ScrollCategory = ({
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
+          <Tab label={"All"} value={null} sx={{ fontWeight: 600 }} />
           {specialties?.map((specialty: any) => (
             <Tab
               key={specialty.id}
