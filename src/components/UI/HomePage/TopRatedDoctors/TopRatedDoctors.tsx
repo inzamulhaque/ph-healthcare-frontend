@@ -109,7 +109,13 @@ const TopRatedDoctors = async () => {
                   </CardContent>
                   <CardActions>
                     <Button>Book Now</Button>
-                    <Button variant="outlined">View Profile</Button>
+                    <Button
+                      variant="outlined"
+                      component={Link}
+                      href={`/doctors/${doctor.id}`}
+                    >
+                      View Profile
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>

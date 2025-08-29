@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useGetSingleDoctorQuery } from "@/redux/api/doctorApi";
 import { Box, Chip, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import DoctorScheduleSlots from "../components/DoctorScheduleSlots";
 
 const InfoBoxStyles = {
   background:
@@ -87,14 +88,20 @@ const Page = () => {
                         Specialties in
                       </Typography>
                       <Box>
-                        {specialties?.map((sp: any) => (
-                          <Chip
-                            key={sp}
-                            label={sp}
-                            color="primary"
-                            sx={{ mr: 1 }}
-                          />
-                        ))}
+                        {specialties?.length !== 0 ? (
+                          specialties?.map((sp: any) => (
+                            <Chip
+                              key={sp}
+                              label={sp}
+                              color="primary"
+                              sx={{ mr: 1 }}
+                            />
+                          ))
+                        ) : (
+                          <Typography color="error">
+                            No specialties found
+                          </Typography>
+                        )}
                       </Box>
                     </Stack>
                   </Box>
@@ -156,6 +163,8 @@ const Page = () => {
             </Stack>
           </Box>
         </Box>
+
+        <DoctorScheduleSlots id={id as string} />
       </Container>
     </>
   );
