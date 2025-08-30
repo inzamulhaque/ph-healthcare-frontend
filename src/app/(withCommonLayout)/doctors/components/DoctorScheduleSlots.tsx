@@ -1,5 +1,6 @@
 "use client";
 import { getTimeIn12HourFormat } from "@/app/(withDashboardLayout)/dashboard/doctor/schedules/components/MultipleSelectFieldChip";
+import { useCreateAppointmentMutation } from "@/redux/api/appointmentApi";
 
 import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
 import { IDoctorSchedule } from "@/types/doctorSchedules";
@@ -38,6 +39,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
     .toISOString();
 
   const { data, isLoading } = useGetAllDoctorSchedulesQuery({ ...query });
+  const [createAppointment] = useCreateAppointmentMutation();
 
   const doctorSchedules = data?.doctorSchedules;
 
@@ -47,6 +49,21 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
   const availableSlots = doctorSchedules?.filter(
     (doctor: IDoctorSchedule) => !doctor.isBooked
   );
+
+  const handleBookAppointment = async () => {
+    try {
+      if (id && scheduleId) {
+        const res = await createAppointment({
+          scheduleId,
+          doctorId: id,
+        }).unwrap();
+
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Box mb={5}>
@@ -96,7 +113,10 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
         <Box sx={{ borderBottom: "2px dashed #d0d0d0", mt: 2, mb: 3 }} />
       </Box>
 
-      <Button sx={{ display: "block", mx: "auto" }}>
+      <Button
+        onClick={handleBookAppointment}
+        sx={{ display: "block", mx: "auto" }}
+      >
         Book Appointment Now
       </Button>
     </Box>
