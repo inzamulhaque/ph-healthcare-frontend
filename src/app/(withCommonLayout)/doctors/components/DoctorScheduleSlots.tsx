@@ -3,6 +3,7 @@ import { getTimeIn12HourFormat } from "@/app/(withDashboardLayout)/dashboard/doc
 import { useCreateAppointmentMutation } from "@/redux/api/appointmentApi";
 
 import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
+import { useInitialPaymentMutation } from "@/redux/api/paymentApi";
 import { IDoctorSchedule } from "@/types/doctorSchedules";
 import dateFormatter from "@/utils/dateFormatter";
 
@@ -40,6 +41,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
 
   const { data, isLoading } = useGetAllDoctorSchedulesQuery({ ...query });
   const [createAppointment] = useCreateAppointmentMutation();
+  const [initialPayment] = useInitialPaymentMutation();
 
   const doctorSchedules = data?.doctorSchedules;
 
@@ -58,7 +60,13 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
           doctorId: id,
         }).unwrap();
 
-        console.log(res);
+        if (res.id) {
+          const paymentRes = await initialPayment(res.id as string).unwrap();
+
+          if (paymentRes?.paymentUrl) {
+            router.push(paymentRes.paymentUrl);
+          }
+        }
       }
     } catch (error) {
       console.log(error);
