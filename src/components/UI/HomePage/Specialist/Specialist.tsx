@@ -1,5 +1,6 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface ISpecialty {
@@ -63,6 +64,8 @@ const Specialist = async () => {
                     transition: "0.5s",
                   },
                 }}
+                component={Link}
+                href={`/specialist?specialty=${specialty.title.toLowerCase()}`}
               >
                 <Image
                   src={specialty.icon}
