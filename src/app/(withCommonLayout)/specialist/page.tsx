@@ -27,6 +27,10 @@ const Page = ({ searchParams }: { searchParams: TSearchParams }) => {
           <DoctorCard doctor={doctor} />
         </Box>
       ))}
+
+      {data?.doctors?.length === 0 && (
+        <Box>No Doctor Found With This Specialty</Box>
+      )}
     </>
   );
 };

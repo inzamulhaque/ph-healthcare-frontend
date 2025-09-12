@@ -13,7 +13,7 @@ const VideoCall = ({ videoCallingId }: { videoCallingId: string }) => {
   const rtcProps = {
     appId: process.env.NEXT_PUBLIC_AGORA_APP_ID || "test", // enter your agora app id
     channel: videoCallingId, // your agora channel
-    token: null, // use null or skip if using app in testing mode
+    token: process.env.NEXT_PUBLIC_AGORA_APP_TOKEN, // use null or skip if using app in testing mode
   };
   const callbacks = {
     EndCall: () => {
